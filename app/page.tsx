@@ -1,65 +1,89 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+import { ChatHeader } from "@/components/ChatHeader"
+import { ChatInput } from "@/components/ChatInput"
+import { ChatMessages } from "@/components/chatMessages"
+import { useState } from "react"
+
+
+interface Message {
+    id: string
+    role: "user" | "assistant"
+    content: string
+    timestamp: Date
+}
+
+const mockMessages: Message[] = [
+    {
+        id: "1",
+        role: "assistant",
+        content: "Hello! How can I assist you today?",
+        timestamp: new Date(Date.now() - 300000),
+    },
+    {
+        id: "2",
+        role: "user",
+        content: "Can you help me understand TanStack AI?",
+        timestamp: new Date(Date.now() - 240000),
+    },
+    {
+        id: "3",
+        role: "assistant",
+        content:
+            "Of course! TanStack AI is a powerful library for building AI-powered applications. It provides a comprehensive set of tools for managing AI interactions, state management, and data fetching. What specific aspect would you like to know more about?",
+        timestamp: new Date(Date.now() - 180000),
+    },
+    {
+        id: "4",
+        role: "user",
+        content: "How does it handle streaming responses?",
+        timestamp: new Date(Date.now() - 120000),
+    },
+    {
+        id: "5",
+        role: "assistant",
+        content:
+            "TanStack AI handles streaming responses elegantly by providing real-time updates as the AI generates content. This creates a more interactive and responsive user experience, similar to what you see in modern chat interfaces.",
+        timestamp: new Date(Date.now() - 60000),
+    },
+]
+
+export default function ChatPage() {
+    const [messages, setMessages] = useState<Message[]>(mockMessages)
+    const [isDark, setIsDark] = useState(true)
+    const [isThinking, setIsThinking] = useState(false)
+
+    const handleSend = (content: string) => {
+        const newUserMessage: Message = {
+            id: Date.now().toString(),
+            role: "user",
+            content,
+            timestamp: new Date(),
+        }
+
+        setMessages((prev) => [...prev, newUserMessage])
+
+        setIsThinking(true)
+
+        setTimeout(() => {
+            const aiResponse: Message = {
+                id: (Date.now() + 1).toString(),
+                role: "assistant",
+                content: "This is a mock response. Integrate TanStack AI to get real AI-powered responses!",
+                timestamp: new Date(),
+            }
+            setMessages((prev) => [...prev, aiResponse])
+            setIsThinking(false)
+        }, 2000)
+    }
+
+    return (
+        <div className={isDark ? "dark" : ""}>
+            <div className="flex h-screen flex-col bg-background text-foreground">
+                <ChatHeader isDark={isDark} onToggleTheme={() => setIsDark(!isDark)} />
+                <ChatMessages messages={messages} isThinking={isThinking} />
+                <ChatInput onSend={handleSend} />
+            </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+    )
 }
