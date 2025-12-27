@@ -1,5 +1,5 @@
 import { chat, toServerSentEventsStream } from "@tanstack/ai";
-import { geminiText } from "@tanstack/ai-gemini";
+import { createGeminiChat, geminiText } from "@tanstack/ai-gemini";
 
 export async function POST(request: Request) {
     if (!process.env.GEMINI_API_KEY) {
@@ -9,15 +9,17 @@ export async function POST(request: Request) {
         );
     }
 
-    const { messages, conversationId } = await request.json();
+    const { messages } = await request.json();
+    console.log("Received messages:", messages);
 
     try {
         const stream = await chat({
-            adapter: geminiText("gemini-2.0-flash-lite"),
+            adapter: createGeminiChat("gemini-2.5-pro", process.env.GEMINI_API_KEY),
             messages,
-            conversationId,
+            conversationId: Date.now().toString(),
         });
-        const readableStream = await toServerSentEventsStream(stream);
+
+        const readableStream = toServerSentEventsStream(stream);
 
         return new Response(readableStream, {
             headers: {

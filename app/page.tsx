@@ -11,7 +11,9 @@ export default function ChatPage() {
 
     const { messages, sendMessage, isLoading, error } = useChat({
         connection: fetchServerSentEvents("/api/chat"),
+
     });
+
     console.log("Messages:", messages);
 
     return (
