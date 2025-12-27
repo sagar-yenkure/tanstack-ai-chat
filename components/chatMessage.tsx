@@ -31,7 +31,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
       </div>
       <div
         className={cn(
-          "max-w-[80%] rounded-2xl px-3.5 py-2.5",
+          "max-w-[80%] rounded-2xl px-3.5 py-2",
           message.role === "user"
             ? "bg-gradient-to-br from-blue-500 to-cyan-500 text-white"
             : "bg-muted text-foreground",

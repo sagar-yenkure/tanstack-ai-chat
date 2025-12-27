@@ -32,14 +32,11 @@ export function ChatInput({ onSend }: ChatInputProps) {
                     <Button
                         onClick={handleSend}
                         size="icon"
-                        className="h-11 w-11 shrink-0 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white hover:from-blue-600 hover:to-cyan-600"
+                        className="h-11 w-11 hover:cursor-pointer shrink-0 rounded-xl bg-linear-to-br from-blue-500 to-cyan-500 text-white hover:from-blue-600 hover:to-cyan-600"
                     >
                         <Send className="h-4 w-4" />
                     </Button>
                 </div>
-                <p className="mt-2 text-center text-xs text-muted-foreground">
-                    This is a demo interface. Integrate TanStack AI for real responses.
-                </p>
             </div>
         </div>
     )

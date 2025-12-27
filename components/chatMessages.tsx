@@ -29,8 +29,8 @@ export const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(({ mes
           <ChatMessage key={message.id} message={message} />
         ))}
         {isThinking && (
-          <div className="flex animate-fade-in items-start gap-3">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500">
+          <div className="flex animate-fade-in items-start gap-3 w-fit">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-purple-500 to-pink-500">
               <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
