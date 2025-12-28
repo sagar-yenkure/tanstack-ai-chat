@@ -6,12 +6,11 @@ import { type UIMessage } from "@tanstack/ai-react"
 import ThinkingIndicator from "./ThinkingIndicator"
 
 interface ChatMessagesProps {
-  error: Error | undefined,
   messages: UIMessage[]
   isLoading?: boolean
 }
 
-export const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(({ error, messages, isLoading }, ref) => {
+export const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(({ messages, isLoading }, ref) => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

@@ -2,20 +2,21 @@ import { chat, toServerSentEventsStream } from "@tanstack/ai";
 import { createGeminiChat } from "@tanstack/ai-gemini";
 
 export async function POST(request: Request) {
-    if (!process.env.GEMINI_API_KEY) {
-        return new Response(
-            JSON.stringify({ error: "GEMINI_API_KEY not configured" }),
-            { status: 500 }
-        );
-    }
-
-    const { messages } = await request.json();
-
     try {
+        if (!process.env.GEMINI_API_KEY) {
+            return new Response(
+                JSON.stringify({ error: "GEMINI_API_KEY not configured" }),
+                { status: 500 }
+            );
+        }
+
+        const { messages } = await request.json();
+
         const stream = await chat({
             adapter: createGeminiChat("gemini-2.5-flash-lite", process.env.GEMINI_API_KEY),
             messages,
             conversationId: Date.now().toString(),
+            maxTokens: 100,
         });
 
         const readableStream = toServerSentEventsStream(stream);
