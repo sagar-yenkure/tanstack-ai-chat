@@ -16,7 +16,7 @@ export async function POST(request: Request) {
             adapter: createGeminiChat("gemini-2.5-flash-lite", process.env.GEMINI_API_KEY),
             messages,
             conversationId: Date.now().toString(),
-            maxTokens: 100,
+            maxTokens: 250,
         });
 
         const readableStream = toServerSentEventsStream(stream);
