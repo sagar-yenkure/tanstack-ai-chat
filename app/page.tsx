@@ -14,9 +14,6 @@ export default function ChatPage() {
         connection: fetchServerSentEvents("/api/chat"),
     });
 
-    console.log("Messages:", messages);
-    console.log("error:", error);
-
     return (
         <div className={isDark ? "dark" : ""}>
             <div className="flex h-screen flex-col bg-background text-foreground">
